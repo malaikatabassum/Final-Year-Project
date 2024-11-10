@@ -12,7 +12,7 @@ const { type } = require("os");
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/E-commerce");
+mongoose.connect("mongodb+srv://malaikadev:malaika123@cluster0.c3gusfu.mongodb.net/Ecommerce?retryWrites=true&w=majority&appName=Cluster0");
 
 app.get("/",(req,res)=>{
     res.send("Express App is Running")
@@ -254,7 +254,11 @@ app.post('/removefromcart',fetchUser, async (req, res)=>{
 app.post('/getcart',fetchUser, async(req, res)=>{
   console.log("GetCart");
   let userData = await Users.findOne({_id:req.user.id});
-  res.json(userData.cartData);
+  if (userData && userData.cartData) {
+    res.json(userData.cartData);
+} else {
+    res.status(404).json({ message: "User or cart data not found" });
+}
 })
 
 app.listen(port,(error)=>{
