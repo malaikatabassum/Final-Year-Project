@@ -12,49 +12,56 @@ const LoginSignUp = () => {
   const changeHandler = (e) => {
     setFromData({...formData,[e.target.name]:e.target.value})
   }
-  const login = async() =>{
-    console.log("Login Function Executed",formData);
-    let responseData;
-    await fetch ('http://localhost:5000/login',{
-      method: 'POST',
-      headers:{
-        Accept: 'application/form-data',
-        'Content-Type':'application/json',
-      },
-      body: JSON.stringify(formData),
-    }).then((response)=> response.json()).then((data)=>responseData=data)
-
-    if(responseData.success){
-      localStorage.setItem('auth-token', responseData.token);
-      window.location.replace("/");
-
+  const login = async () => {
+    console.log("Login Function Executed", formData);
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const responseData = await response.json();
+  
+      if (responseData.success) {
+        localStorage.setItem('auth-token', responseData.token);
+        window.location.replace("/");  // Or use React Router if applicable
+      } else {
+        alert(responseData.errors);
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
     }
-    else{
-      alert(responseData.errors)
+  };
+  
+  const signup = async () => {
+    console.log("signup Function Executed", formData);
+    try {
+      const response = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const responseData = await response.json();
+  
+      if (responseData.success) {
+        localStorage.setItem('auth-token', responseData.token);
+        window.location.replace("/");  // Or use React Router if applicable
+      } else {
+        alert(responseData.errors);
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
     }
-  }
-
-  const signup = async() =>{
-    console.log("signup Function Executed", formData)
-    let responseData;
-    await fetch ('http://localhost:5000/signup',{
-      method: 'POST',
-      headers:{
-        Accept: 'application/form-data',
-        'Content-Type':'application/json',
-      },
-      body: JSON.stringify(formData),
-    }).then((response)=> response.json()).then((data)=>responseData=data)
-
-    if(responseData.success){
-      localStorage.setItem('auth-token', responseData.token);
-      window.location.replace("/");
-
-    }
-    else{
-      alert(responseData.errors)
-    }
-  }
+  };
+  
 
   return (
     <div className='loginsignup'>

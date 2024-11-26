@@ -1,0 +1,25 @@
+GET http://localhost:5000/
+
+
+###
+GET http://localhost:8080/
+
+###
+POST http://localhost:5000/signup
+Content-Type: application/json
+
+{
+  "name": "absar",
+  "email": "absar@email.com",
+  "password": "absar"
+}
+###
+###
+
+###
+POST  http://localhost:5000/signup?name=absar&email=absar@email.com&password=absar
+
+###
+POST http://localhost:5000/signup?name=bilal&email=bilal@email.com&password=bilal
+###
+POST http://localhost:5000/delete?email=majid@email.com
